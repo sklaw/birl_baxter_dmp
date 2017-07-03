@@ -1,0 +1,5 @@
+roslauch aruco_ros baxter_camera.launch
+
+roslaunch aruco_hand_eye eye_on_base.launch
+
+
