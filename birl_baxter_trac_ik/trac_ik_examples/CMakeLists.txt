@@ -31,7 +31,7 @@ include_directories(
 
 
 add_executable(baxter_trac_ik  src/baxter_trac_ik.cpp)
-add_executable(joint_pub  src/joint_pub.cpp)
+add_executable(joint_pub  src/baxter_joint_pub.cpp)
 
 
 
