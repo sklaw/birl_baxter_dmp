@@ -6,6 +6,7 @@ roslib.load_manifest('dmp')
 import rospy
 import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd 
 from dmp.srv import *
 from dmp.msg import *
 from baxter_core_msgs.msg import JointCommand
@@ -39,13 +40,7 @@ class Dmp(object):
         rospy.loginfo("q_w1 %s", data.command[5])
         rospy.loginfo("q_w2 %s", data.command[6])
 
-#    
-#    def ik_solve(self,w_x,w_y,w_z,w_qx,w_qy,w_qz,w_qw):
-#        rospy.wait_for_service('baxter_tracik/ik_solver')
-#        solve = rospy.ServiceProxy('baxter_tracik/ik_solver', ik_solver)
-#        resp2 = solve(w_x,w_y,w_z,w_qx,w_qy,w_qz,w_qw)
-#        return resp2
-#          
+          
 #Learn a DMP from demonstration data
     def makeLFDRequest(self,dims, traj, dt, K_gain,
                        D_gain, num_bases):
@@ -100,31 +95,29 @@ class Dmp(object):
 if __name__ == '__main__':
     rospy.init_node('dmp_baxter_r_arm_node')
     dmp = Dmp()
-    rospy.Subscriber("end_effector_command_solution",JointCommand, dmp.callback)
-    rospy.wait_for_message("end_effector_command_solution",JointCommand)
+#    rospy.Subscriber("end_effector_command_solution",JointCommand, dmp.callback)
+#    rospy.wait_for_message("end_effector_command_solution",JointCommand)
     
-    rospy.loginfo("q_s0 %s", dmp.q_s0)
+#    rospy.loginfo("q_s0 %s", dmp.q_s0)
     
-#    rospy.Subscriber("aruco_tracker/pose",PoseStamped, dmp.callback)
-#    rospy.loginfo("I heard %s", dmp.w_qx)
-# 
-#    print('successfully get rot matrix')
 
     plt.close('all')
+    
+    
     # read file
-    train_set = np.loadtxt('/home/tony/ros/indigo/baxter_ws/src/baxter_dmp/dmp/datasets/baxter_joint_input_data.txt')
+    train_set = pd.read_csv('/home/tony/ros/indigo/baxter_ws/src/birl_baxter/birl_baxter_dmp/dmp/datasets/grasp_demo.txt')
     
 
 
     train_len = len(train_set)
-    resample_t = np.linspace(train_set[0,0],train_set[-1,0],train_len)
-    joint0_data = np.interp(resample_t, train_set[:,0], train_set[:,9])
-    joint1_data = np.interp(resample_t, train_set[:,0], train_set[:,10])
-    joint2_data = np.interp(resample_t, train_set[:,0], train_set[:,11])
-    joint3_data = np.interp(resample_t, train_set[:,0], train_set[:,12])
-    joint4_data = np.interp(resample_t, train_set[:,0], train_set[:,13])
-    joint5_data = np.interp(resample_t, train_set[:,0], train_set[:,14])
-    joint6_data = np.interp(resample_t, train_set[:,0], train_set[:,15])
+    resample_t = np.linspace(train_set.values[0,0],train_set.values[-1,0],train_len)
+    joint0_data = np.interp(resample_t, train_set.values[:,0], train_set.values[:,9])
+    joint1_data = np.interp(resample_t, train_set.values[:,0], train_set.values[:,10])
+    joint2_data = np.interp(resample_t, train_set.values[:,0], train_set.values[:,11])
+    joint3_data = np.interp(resample_t, train_set.values[:,0], train_set.values[:,12])
+    joint4_data = np.interp(resample_t, train_set.values[:,0], train_set.values[:,13])
+    joint5_data = np.interp(resample_t, train_set.values[:,0], train_set.values[:,14])
+    joint6_data = np.interp(resample_t, train_set.values[:,0], train_set.values[:,15])
     
     traj = [[0.0,0.0,0.0,0.0,0.0,0.0,0.0]]* train_len
     for i in range(train_len):
@@ -165,15 +158,15 @@ if __name__ == '__main__':
 #             joint_angles['right_e0'], joint_angles['right_e1'],
 #             joint_angles['right_w0'], joint_angles['right_w1'],
 #             joint_angles['right_w2']]         #Plan to a different goal than demo
-    goal = [dmp.q_s0, 
-            dmp.q_s1, 
-            dmp.q_e0,
-            dmp.q_e1, 
-            dmp.q_w0, 
-            dmp.q_w1, 
-            dmp.q_w2 ]
-#    goal =[ joint0_data[-1],joint1_data[-1],
-#    joint2_data[-1], joint3_data[-1],joint4_data[-1],joint5_data[-1], joint6_data[-1]         ]
+#    goal = [dmp.q_s0, 
+#            dmp.q_s1, 
+#            dmp.q_e0,
+#           dmp.q_e1, 
+#            dmp.q_w0, 
+#           dmp.q_w1, 
+#            dmp.q_w2 ]
+    goal =[ joint0_data[-1],joint1_data[-1],
+    joint2_data[-1], joint3_data[-1],joint4_data[-1],joint5_data[-1], joint6_data[-1]         ]
     goal_thresh = [0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2]
     seg_length = -1          #Plan until convergence to goal
     tau = 2 * resp.tau       #Desired plan should take twice as long as demo
@@ -212,7 +205,7 @@ if __name__ == '__main__':
     joint5_data_plan = np.interp(resample_t0, plan.plan.times, Column5_plan)
     joint6_data_plan = np.interp(resample_t0, plan.plan.times, Column6_plan)
 ##########  record the plan trajectory 
-    WriteFileDir ="/home/tony/ros/indigo/baxter_ws/src/baxter_dmp/dmp/datasets/baxter_joint_output_data.txt"    
+    WriteFileDir ="/home/tony/ros/indigo/baxter_ws/src/birl_baxter/birl_baxter_dmp/dmp/datasets/baxter_joint_output_data.txt"    
     plan_len = len(plan.plan.times)
     f = open(WriteFileDir,'w')
     f.write('time,')
@@ -246,5 +239,4 @@ if __name__ == '__main__':
 
 
     plt.show()
-#    rospy.spin()
 
