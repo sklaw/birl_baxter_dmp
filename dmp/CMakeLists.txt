@@ -9,6 +9,8 @@ find_package(catkin REQUIRED COMPONENTS
 cmake_modules
 roscpp
 rospy
+actionlib_msgs
+actionlib
 message_generation
 )
 find_package(Eigen REQUIRED)
@@ -26,8 +28,15 @@ add_service_files(
    LearnDMPFromDemo.srv
    SetActiveDMP.srv
  )
+add_action_files(
+   FILES
+   Fibonacci.action
+   DoDishes.action
 
-generate_messages()
+ )
+generate_messages(  
+   DEPENDENCIES
+   actionlib_msgs   std_msgs)
 
 catkin_package(
 INCLUDE_DIRS include

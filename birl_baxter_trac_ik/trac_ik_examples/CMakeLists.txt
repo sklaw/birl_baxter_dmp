@@ -34,8 +34,6 @@ add_executable(baxter_trac_ik  src/baxter_trac_ik.cpp)
 add_executable(joint_pub  src/baxter_joint_pub.cpp)
 
 
-
-)
 target_link_libraries(baxter_trac_ik
   ${catkin_LIBRARIES}
   ${Boost_LIBRARIES}
