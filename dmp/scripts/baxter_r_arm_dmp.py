@@ -12,6 +12,9 @@ from dmp.msg import *
 from baxter_core_msgs.msg import JointCommand
 from sensor_msgs.msg import JointState
 
+record_trajectory_path = "/home/tony/ros/indigo/baxter_ws/src/birl_baxter/birl_baxter_dmp/dmp/datasets/go_to_place_position.txt"
+
+generalized_dmp_trajectory_path = "/home/tony/ros/indigo/baxter_ws/src/birl_baxter/birl_baxter_dmp/dmp/datasets/move_door_dmp"
 
 
 
@@ -116,7 +119,7 @@ if __name__ == '__main__':
     
     
     # read file
-    train_set = pd.read_csv('/home/tony/ros/indigo/baxter_ws/src/birl_baxter/birl_baxter_dmp/dmp/datasets/go_to_place_position.txt')
+    train_set = pd.read_csv(record_trajectory_path)
     
 
 
@@ -227,7 +230,7 @@ if __name__ == '__main__':
     joint5_data_plan = np.interp(resample_t0, plan.plan.times, Column5_plan)
     joint6_data_plan = np.interp(resample_t0, plan.plan.times, Column6_plan)
 ##########  record the plan trajectory 
-    WriteFileDir ="/home/tony/ros/indigo/baxter_ws/src/birl_baxter/birl_baxter_dmp/dmp/datasets/move_door_dmp"    ## the path of generated dmp traj
+    WriteFileDir = generalized_dmp_trajectory_path   ## the path of generated dmp traj
     plan_len = len(plan.plan.times)
     f = open(WriteFileDir,'w')
     f.write('time,')
@@ -262,4 +265,5 @@ if __name__ == '__main__':
 
 
     plt.show()
+
 
