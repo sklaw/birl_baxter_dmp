@@ -1,0 +1,19 @@
+<launch>
+  <!-- baxter_dmp_smach-->
+  <!-- File Path Argument -->
+  <arg name="file_path" />
+
+  <!-- Loops Argument -->
+  <arg name="loops" default="1" />
+
+  <!-- Start the Joint Trajectory Action Server -->
+  <node name="rsdk_velocity_joint_trajectory_action_server"
+  pkg="baxter_interface" type="joint_trajectory_action_server.py"
+  required="true" args="--mode velocity" />
+
+  <!-- Run the Joint Trajectory File Playback Example -->
+  <node name="pick_n_place_joint_trajectory_smach" pkg="dmp"
+  type="pick_n_place_joint_trajectory_smach.py"
+  output="screen" />
+
+</launch>

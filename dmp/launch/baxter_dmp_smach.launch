@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+    <node name="dmp_joint_trajectory_action_server" pkg="dmp"   type="dmp_joint_trajectory_action_server.py" output="screen"/>
+    
+    <node name="pick_n_place_joint_trajectory_smach" pkg="dmp"   type="pick_n_place_joint_trajectory_smach.py" output="screen"
+    />
+
+</launch>    
