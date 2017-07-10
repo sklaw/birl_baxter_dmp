@@ -20,8 +20,14 @@ int main(int argc, char **argv)
   cmd.names.push_back("right_w2");
   // set your calculated velocities
   cmd.command.resize(cmd.names.size());
-  for(size_t i = 0; i < cmd.names.size(); i++)
-    cmd.command[i] = 0.0;
+  for(size_t i = 0; i < cmd.names.size(); i++) 
+    cmd.command[0] = -1.2221991927477034;
+    cmd.command[1] = 0.883189438625027;
+    cmd.command[2] = 1.227184630308331;
+    cmd.command[3] = 1.6605342028859604;
+    cmd.command[4] = -2.444398385495407;
+    cmd.command[5] = -0.027228158984966094;
+    cmd.command[6] = -0.29797576804674164;
 
   std::cout<<cmd<<std::endl;
   while(ros::ok()){

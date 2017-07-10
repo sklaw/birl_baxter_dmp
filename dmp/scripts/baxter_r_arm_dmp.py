@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import roslib;
 import sys
-sys.path[0]="/home/tony/ros/indigo/baxter_ws/src/birl_baxter/birl_baxter_dmp/dmp"
+sys.path[0]="/home/tony/ros/indigo/baxter_ws/src/birl_baxter/birl_baxter_dmp/dmp" #you need to change to your dirctory
 roslib.load_manifest('dmp')
 import rospy
 import numpy as np
@@ -12,9 +12,9 @@ from dmp.msg import *
 from baxter_core_msgs.msg import JointCommand
 from sensor_msgs.msg import JointState
 
-record_trajectory_path = "/home/tony/ros/indigo/baxter_ws/src/birl_baxter/birl_baxter_dmp/dmp/datasets/go_to_place_position.txt"
+record_trajectory_path = "/home/tony/ros/indigo/baxter_ws/src/birl_baxter/birl_baxter_dmp/dmp/open_drawer_smach/go_forward.txt"
 
-generalized_dmp_trajectory_path = "/home/tony/ros/indigo/baxter_ws/src/birl_baxter/birl_baxter_dmp/dmp/datasets/move_door_dmp"
+generalized_dmp_trajectory_path = "/home/tony/ros/indigo/baxter_ws/src/birl_baxter/birl_baxter_dmp/dmp/open_drawer_smach/go_forward_dmp.txt"
 
 
 
@@ -164,9 +164,9 @@ if __name__ == '__main__':
     dmp.makeSetActiveRequest(resp.dmp_list)
 
     #Now, generate a plan
-#    x_0 = [joint0_data[0],joint1_data[0],joint2_data[0],
-#           joint3_data[0], joint4_data[0],joint5_data[0], joint6_data[0]]          #Plan starting at a different point than demo
-    x_0 = [0.498222186231,-0.631997082801,-0.0291949014446,1.03494845382,0.0677285306576,1.22626257012,-0.35325073918]
+    x_0 = [joint0_data[0],joint1_data[0],joint2_data[0],
+           joint3_data[0], joint4_data[0],joint5_data[0], joint6_data[0]]          #Plan starting at a different point than demo
+#    x_0 = [0.498222186231,-0.631997082801,-0.0291949014446,1.03494845382,0.0677285306576,1.22626257012,-0.35325073918]
     
     x_dot_0 = [0.4, 0.4, 0.4, 0.4, 0.4, 0.0, 0.4]
     

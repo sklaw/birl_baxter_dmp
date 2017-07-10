@@ -151,10 +151,10 @@ def main():
                                transitions={'Succeed':'Gripper_open'})
         
         smach.StateMachine.add('Gripper_open',Gripper_open(),
-                               transitions={'Succeed':'Go_forward'})
+                               transitions={'Succeed':'Done'})
        
-        smach.StateMachine.add('Go_forward',Go_forward(),
-                               transitions={'Succeed':'Done'})                       
+#        smach.StateMachine.add('Go_forward',Go_forward(),
+#                               transitions={'Succeed':'Done'})                       
   
     sis = smach_ros.IntrospectionServer('MY_SERVER', sm, '/SM_ROOT')
 
