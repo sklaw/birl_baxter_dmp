@@ -57,7 +57,7 @@ from baxter_interface import CHECK_VERSION
 
 
 class Trajectory(object):
-    def __init__(self):
+    def __init__(self,limb="right"):
         #create our action server clients
         self._right_client = actionlib.SimpleActionClient( 
             'robot/limb/right/follow_joint_trajectory',
@@ -74,7 +74,8 @@ class Trajectory(object):
             rospy.signal_shutdown(msg)
             sys.exit(1)
         #create our goal request
-        
+        self._limb_name = limb
+        self._gripper = baxter_interface.Gripper(limb)
         self._r_goal = FollowJointTrajectoryGoal()
 
         #limb interface - current angles needed for start move
@@ -104,7 +105,15 @@ class Trajectory(object):
 
         #gripper control rate
         self._gripper_rate = 20.0  # Hz
+    
+    def gripper_open(self):
+        self._gripper.open()
+        rospy.sleep(1.0)
 
+    def gripper_close(self):
+        self._gripper.close()
+        rospy.sleep(1.0)
+    
     def _execute_gripper_commands(self):
         start_time = rospy.get_time() - self._trajectory_actual_offset.to_sec()
         r_cmd = self._r_grip.trajectory.points

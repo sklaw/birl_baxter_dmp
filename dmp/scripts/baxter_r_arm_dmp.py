@@ -12,9 +12,9 @@ from dmp.msg import *
 from baxter_core_msgs.msg import JointCommand
 from sensor_msgs.msg import JointState
 
-record_trajectory_path = "/home/tony/ros/indigo/baxter_ws/src/birl_baxter/birl_baxter_dmp/dmp/open_drawer_smach/go_forward.txt"
+record_trajectory_path = '/home/tony/ros/indigo/baxter_ws/src/birl_baxter/birl_baxter_dmp/dmp/test/go_to_start_position1.txt'
 
-generalized_dmp_trajectory_path = "/home/tony/ros/indigo/baxter_ws/src/birl_baxter/birl_baxter_dmp/dmp/open_drawer_smach/go_forward_dmp.txt"
+generalized_dmp_trajectory_path = '/home/tony/ros/indigo/baxter_ws/src/birl_baxter/birl_baxter_dmp/dmp/test/go_to_start_position1_dmp.txt'
 
 
 
@@ -185,8 +185,7 @@ if __name__ == '__main__':
 #            dmp.q_w2 ]
     goal =[ joint0_data[-1],joint1_data[-1],
     joint2_data[-1], joint3_data[-1],joint4_data[-1],joint5_data[-1], joint6_data[-1]         ]
-#    goal =[ -0.060975736318445196, 0.38081073059255394,
-#     0.8095583608065271, 0.5595194923812047, -1.4427089310062315, -0.8371700149884646, -3.058757691043515]
+    goal =[ 0.9295923574585607, -0.7654564131548215, -1.0768545130955605, 0.83870399577635, 1.0530778108833365, 1.2563302652781538, -0.8245146734884099]
     
     goal_thresh = [0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05]   
     

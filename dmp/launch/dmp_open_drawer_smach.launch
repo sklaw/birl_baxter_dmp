@@ -10,8 +10,8 @@
   required="true" args="--mode velocity" />
 
   <!-- Run the Joint Trajectory File Playback Example -->
-  <node name="open_drawer_smach" pkg="dmp"
-  type="open_drawer_smach.py"
+  <node name="open_drawer_smach_test" pkg="dmp"
+  type="open_drawer_smach_test.py"
   output="screen" />
 
 </launch>

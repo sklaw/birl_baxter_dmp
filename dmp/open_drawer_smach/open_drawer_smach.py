@@ -1,9 +1,10 @@
 #!/usr/bin/env python
+
 from dmp.srv import *
 import sys
 import rospy
 from srv_client import *
-import dmp_joint_trajectory_file_playback
+import dmp_r_joint_trajectory_client
 import smach
 import smach_ros
 import config
@@ -23,7 +24,6 @@ class Go_to_start_position(smach.State):
         rospy.loginfo('read recording file Go_to_start_position trajectory')
         dmp0_traj.start()        
         dmp0_traj.wait()
-        dmp0_traj.stop()
         rospy.loginfo('succeesfully run start_to_pick_trajectory')    
         return 'Succeed'
         
@@ -41,7 +41,6 @@ class Go_to_gripper_position(smach.State):
         rospy.loginfo('read recording file Go_to_gripper_position trajectory')
         dmp1_traj.start()        
         dmp1_traj.wait()
-        dmp1_traj.stop()
         rospy.loginfo('succeesfully run Go_to_gripper_position_trajectory')    
         return 'Succeed'
         
@@ -58,7 +57,7 @@ class Go_back(smach.State):
         rospy.loginfo('read recording file Go_back trajectory')
         dmp2_traj.start()        
         dmp2_traj.wait()
-        dmp2_traj.stop()
+  
         rospy.loginfo('succeesfully run Go_back_trajectory')    
         return 'Succeed'
 
@@ -75,7 +74,7 @@ class Pick_object(smach.State):
         rospy.loginfo('read recording file Pick_object trajectory')
         dmp2_traj.start()        
         dmp2_traj.wait()
-        dmp2_traj.stop()
+
         rospy.loginfo('succeesfully run Pick_object_trajectory')    
         return 'Succeed'
 
@@ -87,12 +86,11 @@ class Go_forward(smach.State):
     def execute(self, userdata):
         rospy.loginfo('Executing Go_forward...')
         global dmp3_traj       
-        dmp0_traj.parse_file(config.go_forward_path)
-        
+        dmp0_traj.parse_file(config.go_forward_path)        
         rospy.loginfo('read recording file Go_forward trajectory')
         dmp3_traj.start()        
         dmp3_traj.wait()
-        dmp3_traj.stop()
+
         rospy.loginfo('succeesfully run Go_forward_trajectory')    
         return 'Succeed'
 
@@ -129,10 +127,10 @@ def main():
     global dmp1_traj
     global dmp2_traj
     global dmp3_traj
-    dmp0_traj = dmp_joint_trajectory_file_playback.Trajectory()
-    dmp1_traj = dmp_joint_trajectory_file_playback.Trajectory()
-    dmp2_traj = dmp_joint_trajectory_file_playback.Trajectory()
-    dmp3_traj = dmp_joint_trajectory_file_playback.Trajectory()
+    dmp0_traj = dmp_r_joint_trajectory_client.Trajectory()
+    dmp1_traj = dmp_r_joint_trajectory_client.Trajectory()
+    dmp2_traj = dmp_r_joint_trajectory_client.Trajectory()
+    dmp3_traj = dmp_r_joint_trajectory_client.Trajectory()
    
     with sm:
 #        smach.StateMachine.add('Setup_gripper_statue', Setup_gripper_statue(),

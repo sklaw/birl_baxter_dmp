@@ -8,7 +8,7 @@
 
   <!-- Start the Joint Trajectory Action Server -->
   <node name="rsdk_velocity_joint_trajectory_action_server"
-  pkg="baxter_interface" type="joint_trajectory_action_server.py"
+  pkg="dmp" type="dmp_r_joint_trajectory_action_server.py"
   required="true" args="--mode velocity" />
 
   <!-- Run the Joint Trajectory File Playback Example -->
